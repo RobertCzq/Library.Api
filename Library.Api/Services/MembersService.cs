@@ -1,5 +1,5 @@
-﻿using Library.Api.Infrastructure.Models;
-using Library.Api.Infrastructure.Repository.Interfaces;
+﻿using Library.Api.Infrastructure.Interfaces;
+using Library.Api.Infrastructure.Models;
 using Library.Api.Services.Interfaces;
 
 namespace Library.Api.Services

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Library.Api.Infrastructure.Models;
+using Library.Api.Models;
+using Library.Api.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Library.Api.Controllers
 {
@@ -8,36 +10,49 @@ namespace Library.Api.Controllers
     [ApiController]
     public class BorrowTransactionsController : ControllerBase
     {
-        // GET: api/<BorrowTransactionsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("{memberId}")]
+        public async Task<ActionResult> Get([FromServices] IBorrowTransactionsService borrowTransactionsService, int memberId)
         {
-            return new string[] { "value1", "value2" };
+            var transactions = await borrowTransactionsService.GetByMemberId(memberId);
+            if (transactions.Any())
+            {
+                return Ok(transactions);
+            }
+
+            return NotFound();
         }
 
-        // GET api/<BorrowTransactionsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<BorrowTransactionsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> AddTransaction([FromServices] IBorrowTransactionsService borrowTransactionsService,
+            [FromBody] BorrowTransactionInputModel transaction)
         {
+            var added = await borrowTransactionsService.Add(new BorrowTransaction()
+            {
+                BookId = transaction.BookId,
+                MemberId = transaction.MemberId,
+                BorrowDate = transaction.BorrowDate
+            });
+            if (added)
+            {
+                return Created("", transaction);
+            }
+
+            return NoContent();
         }
 
-        // PUT api/<BorrowTransactionsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put([FromServices] IBorrowTransactionsService borrowTransactionsService,
+            int id,
+            [FromQuery] DateTime returnDate)
         {
-        }
+            var updated = await borrowTransactionsService.Update(id, returnDate);
 
-        // DELETE api/<BorrowTransactionsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            if (updated)
+            {
+                return Ok();
+            }
+
+            return NoContent();
         }
     }
 }

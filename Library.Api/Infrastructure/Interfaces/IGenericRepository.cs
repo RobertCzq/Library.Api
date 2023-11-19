@@ -1,4 +1,4 @@
-﻿namespace Library.Api.Infrastructure.Repository.Interfaces
+﻿namespace Library.Api.Infrastructure.Interfaces
 {
     /// <summary>
     /// Using generic repository from 

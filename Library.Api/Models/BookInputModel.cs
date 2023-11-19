@@ -1,4 +1,9 @@
 ﻿namespace Library.Api.Models
 {
-    public record BookInputModel(string Title, string Author, int PublicationYear);
+    public class BookInputModel
+    {
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public int PublicationYear { get; set; }
+    }
 }

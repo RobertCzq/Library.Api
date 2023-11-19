@@ -3,7 +3,6 @@ using Library.Api.Models;
 using Library.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Library.Api.Controllers
 {
@@ -26,7 +25,7 @@ namespace Library.Api.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> AddBook([FromServices] IMembersService membersService,
+        public async Task<ActionResult> AddMember([FromServices] IMembersService membersService,
             [FromBody] MemberInputModel member)
         {
             var added = await membersService.Add(new Member()
