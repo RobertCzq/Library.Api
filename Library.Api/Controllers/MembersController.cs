@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Library.Api.Infrastructure.Models;
+using Library.Api.Models;
+using Library.Api.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +11,68 @@ namespace Library.Api.Controllers
     [ApiController]
     public class MembersController : ControllerBase
     {
-        // GET: api/<MembersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
-        // GET api/<MembersController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult> Get([FromServices] IMembersService membersService, int id)
         {
-            return "value";
+            var member = await membersService.Get(id);
+            if (member != null)
+            {
+                return Ok(member);
+            }
+
+            return NotFound();
         }
 
-        // POST api/<MembersController>
+
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> AddBook([FromServices] IMembersService membersService,
+            [FromBody] MemberInputModel member)
         {
+            var added = await membersService.Add(new Member()
+            {
+                Name = member.Name,
+                JoinedDate = member.JoinedDate
+            });
+            if (added)
+            {
+                return Created("", member);
+            }
+
+            return NoContent();
         }
 
-        // PUT api/<MembersController>/5
+
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> Put([FromServices] IMembersService membersService,
+            int id,
+            [FromBody] MemberInputModel member)
         {
+            var updated = await membersService.Update(id, new Member()
+            {
+                Name = member.Name,
+                JoinedDate = member.JoinedDate
+            });
+
+            if (updated)
+            {
+                return Ok(member);
+            }
+
+            return NoContent();
         }
 
-        // DELETE api/<MembersController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete([FromServices] IMembersService membersService, int id)
         {
+            var deleted = await membersService.Delete(id);
+
+            if (deleted)
+            {
+                return Ok(id);
+            }
+
+            return NoContent();
         }
     }
 }

@@ -10,8 +10,6 @@ namespace Library.Api.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-
-        // GET api/<BooksController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult> Get([FromServices] IBooksService booksService, int id)
         {
@@ -24,7 +22,6 @@ namespace Library.Api.Controllers
             return NotFound();
         }
 
-        // POST api/<BooksController>
         [HttpPost]
         public async Task<ActionResult> AddBook([FromServices] IBooksService booksService,
             [FromBody] BookInputModel book)
@@ -44,7 +41,6 @@ namespace Library.Api.Controllers
             return NoContent();
         }
 
-        // PUT api/<BooksController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> Put([FromServices] IBooksService booksService,
             int id,
@@ -66,7 +62,6 @@ namespace Library.Api.Controllers
             return NoContent();
         }
 
-        // DELETE api/<BooksController>/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromServices] IBooksService booksService, int id)
         {

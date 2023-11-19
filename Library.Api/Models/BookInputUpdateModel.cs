@@ -2,7 +2,8 @@
 {
     public record BookInputUpdateModel : BookInputModel
     {
-        public BookInputUpdateModel(string Title, string Author, int PublicationYear, bool IsAvailable) : base(Title, Author, PublicationYear)
+        public BookInputUpdateModel(string Title, string Author, int PublicationYear, bool IsAvailable)
+            : base(Title, Author, PublicationYear)
         {
         }
 
