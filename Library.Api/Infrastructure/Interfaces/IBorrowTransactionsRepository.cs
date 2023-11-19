@@ -6,7 +6,7 @@ namespace Library.Api.Infrastructure.Interfaces
     {
         Task<IEnumerable<BorrowTransaction>> GetByMemberId(int memberId);
         Task<bool> Add(BorrowTransaction borrowTransaction);
-        Task<bool> Update(int id, DateTime returnDate);
+        Task<bool> Update(int id, int bookId, DateTime returnDate);
         Task<BorrowTransaction?> GetById(int Id);
     }
 }

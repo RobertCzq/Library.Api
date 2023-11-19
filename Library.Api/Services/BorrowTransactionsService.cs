@@ -51,7 +51,7 @@ namespace Library.Api.Services
             }
 
 
-            return await _borrowTransactionsRepository.Update(id, returnDate);
+            return await _borrowTransactionsRepository.Update(id, transaction.BookId, returnDate);
         }
     }
 }

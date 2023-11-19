@@ -22,7 +22,7 @@ namespace Library.Api.Infrastructure.Repository
         {
             int rowsEffected = 0;
             _connection.Open();
-            using (var tran = _connection.BeginTransaction())
+            using (var transaction = _connection.BeginTransaction())
             {
                 try
                 {
@@ -35,13 +35,12 @@ namespace Library.Api.Infrastructure.Repository
 
                     rowsEffected = await _connection.ExecuteAsync(query, borrowTransaction);
                     await _connection.ExecuteAsync(updateQuery, borrowTransaction);
-                    tran.Commit();
+                    transaction.Commit();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    tran.Rollback();
+                    transaction.Rollback();
                 }
-
             }
 
             return rowsEffected > 0;
@@ -49,32 +48,34 @@ namespace Library.Api.Infrastructure.Repository
 
         public async Task<IEnumerable<BorrowTransaction>> GetByMemberId(int memberId)
         {
-            try
-            {
-                string tableName = _dbHelperService.GetTableName<BorrowTransaction>();
-                string query = $"SELECT * FROM {tableName} WHERE MemberID = {memberId}";
+            string tableName = _dbHelperService.GetTableName<BorrowTransaction>();
+            string query = $"SELECT * FROM {tableName} WHERE MemberID = {memberId}";
 
-                return await _connection.QueryAsync<BorrowTransaction>(query);
-            }
-            catch (Exception ex) { }
-
-            return new List<BorrowTransaction>();
+            return await _connection.QueryAsync<BorrowTransaction>(query);
         }
 
-        public async Task<bool> Update(int id, DateTime returnDate)
+        public async Task<bool> Update(int id, int bookId, DateTime returnDate)
         {
             int rowsEffected = 0;
-
-            try
+            _connection.Open();
+            using (var transaction = _connection.BeginTransaction())
             {
-                string borrowTransactionTable = _dbHelperService.GetTableName<BorrowTransaction>();
+                try
+                {
+                    string borrowTransactionTable = _dbHelperService.GetTableName<BorrowTransaction>();
+                    string booksTable = _dbHelperService.GetTableName<Book>();
+                    string updateQuery = $"UPDATE {borrowTransactionTable} SET ReturnDate = @ReturnDate WHERE ID = {id}";
+                    string updateBookQuery = $"UPDATE {booksTable} SET IsAvailable = 1 WHERE ID = {bookId}";
 
-                string updateQuery = $"UPDATE {borrowTransactionTable} SET ReturnDate = @ReturnDate WHERE ID = {id}";
+                    rowsEffected = await _connection.ExecuteAsync(updateQuery, new { ReturnDate = returnDate });
+                    await _connection.ExecuteAsync(updateBookQuery);
 
-                rowsEffected = await _connection.ExecuteAsync(updateQuery, new { ReturnDate = returnDate });
-            }
-            catch (Exception ex)
-            {
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                }
             }
 
             return rowsEffected > 0;
@@ -82,16 +83,10 @@ namespace Library.Api.Infrastructure.Repository
 
         public async Task<BorrowTransaction?> GetById(int id)
         {
-            try
-            {
-                string tableName = _dbHelperService.GetTableName<BorrowTransaction>();
-                string query = $"SELECT * FROM {tableName} WHERE ID = {id}";
+            string tableName = _dbHelperService.GetTableName<BorrowTransaction>();
+            string query = $"SELECT * FROM {tableName} WHERE ID = {id}";
 
-                return await _connection.QueryFirstOrDefaultAsync<BorrowTransaction>(query);
-            }
-            catch (Exception ex) { }
-
-            return null;
+            return await _connection.QueryFirstOrDefaultAsync<BorrowTransaction>(query);
         }
     }
 }
