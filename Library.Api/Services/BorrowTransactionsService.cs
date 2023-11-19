@@ -50,7 +50,6 @@ namespace Library.Api.Services
                 return false;
             }
 
-
             return await _borrowTransactionsRepository.Update(id, transaction.BookId, returnDate);
         }
     }

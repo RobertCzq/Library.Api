@@ -11,7 +11,7 @@ namespace Library.Api.UnitTests.Systems.Services
         #region Get
 
         [Fact]
-        public async Task Get_OnSuccess_ReturnsBook()
+        public async Task Get_OnSuccess_ReturnsMember()
         {
             //Arrange
             var repository = new Mock<IGenericRepository<Member>>();
@@ -41,7 +41,6 @@ namespace Library.Api.UnitTests.Systems.Services
         }
 
         #endregion
-
 
         #region Add
 
