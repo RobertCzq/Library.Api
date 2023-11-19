@@ -35,7 +35,7 @@ namespace Library.Api.Infrastructure.Repository
             }
             catch (Exception ex) { }
 
-            return rowsEffected > 0 ? true : false;
+            return rowsEffected > 0;
         }
 
         public async Task<bool> Delete(int id)
@@ -51,7 +51,7 @@ namespace Library.Api.Infrastructure.Repository
             }
             catch (Exception ex) { }
 
-            return rowsEffected > 0 ? true : false;
+            return rowsEffected > 0;
         }
 
         public async Task<IEnumerable<T>> GetAll()
@@ -91,7 +91,7 @@ namespace Library.Api.Infrastructure.Repository
             {
                 string tableName = _dbHelperService.GetTableName<T>();
 
-                StringBuilder query = new StringBuilder();
+                StringBuilder query = new();
                 query.Append($"UPDATE {tableName} SET ");
 
                 foreach (var property in _dbHelperService.GetProperties<T>(true))
@@ -112,7 +112,7 @@ namespace Library.Api.Infrastructure.Repository
             }
             catch (Exception ex) { }
 
-            return rowsEffected > 0 ? true : false;
+            return rowsEffected > 0;
         }
 
 

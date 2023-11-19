@@ -44,7 +44,7 @@ namespace Library.Api.Infrastructure.Repository
 
             }
 
-            return rowsEffected > 0 ? true : false;
+            return rowsEffected > 0;
         }
 
         public async Task<IEnumerable<BorrowTransaction>> GetByMemberId(int memberId)
@@ -77,7 +77,7 @@ namespace Library.Api.Infrastructure.Repository
             {
             }
 
-            return rowsEffected > 0 ? true : false;
+            return rowsEffected > 0;
         }
 
         public async Task<BorrowTransaction?> GetById(int id)
