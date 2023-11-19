@@ -1,3 +1,6 @@
+using Library.Api.Infrastructure.Models;
+using Library.Api.Infrastructure.Repository;
+using Library.Api.Infrastructure.Repository.Interfaces;
 using Library.Api.Services;
 using Library.Api.Services.Interfaces;
 
@@ -10,6 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IGenericRepository<Book>, GenericRepository<Book>>();
+builder.Services.AddScoped<IGenericRepository<Book>, BooksRepository>();
 builder.Services.AddScoped<IBooksService, BooksService>();
 builder.Services.AddScoped<IBorrowTransactionsService, BorrowTransactionsService>();
 builder.Services.AddScoped<IMembersService, MembersService>();

@@ -1,6 +1,8 @@
-﻿namespace Library.Api.Services.Interfaces
+﻿using Library.Api.Infrastructure.Models;
+
+namespace Library.Api.Services.Interfaces
 {
-    public interface IBooksService
+    public interface IBooksService : IGenericService<Book>
     {
     }
 }
