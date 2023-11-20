@@ -2,6 +2,6 @@
 {
     public class BookInputUpdateModel : BookInputModel
     {
-        public bool IsAvailable { get; internal set; }
+        public bool IsAvailable { get; set; }
     }
 }
