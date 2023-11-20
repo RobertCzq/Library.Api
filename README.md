@@ -3,7 +3,6 @@ This is an implementation of the Library api for the web api exercise.
 It contains 2 projects:
  - Library.Api contains the main api which is split into 3 controllers.
  - Library.Api.UnitTests contains the unit tests, mostly for the services.
- - 
 In order to run the tests clone the github project to your IDE of choice and run the tests from the Library.Api.UnitTests project.
 
 For ease of development I have decided to use a Sqlite database, in the database there are 3 tables that have the same structure that is described in the task.
