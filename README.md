@@ -1,5 +1,5 @@
 # Library.Api
-This is an implementation of the Library api for the web api exercise.
+This is an implementation of the Library api for the web api.
 It contains 2 projects:
  - Library.Api contains the main api which is split into 3 controllers.
  - Library.Api.UnitTests contains the unit tests, mostly for the services.
@@ -13,6 +13,5 @@ Future improvements:
 - Extend api to add GetAll endpoints
 - Add more unit tests and integration tests, right now there is only unit testing which is focused mostly on the services.
 
-The api is available on azure at https://libraryapiroc.azurewebsites.net/swagger/index.html
 I've added some dummy data for books (id 2,3,4) and members(id 2, 3) that can be used
 
